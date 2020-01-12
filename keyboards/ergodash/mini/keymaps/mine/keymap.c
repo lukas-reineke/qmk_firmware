@@ -20,22 +20,9 @@ enum custom_keycodes {
     TMUX_K,
     TMUX_L,
     TMUX_S,
-    TMUX_SCLN,
-};
-
-enum td_keycodes {
+    TMUX_O,
     TMUX_ESC,
 };
-
-typedef enum {
-    SINGLE_TAP,
-    SINGLE_HOLD,
-} td_state_t;
-
-static td_state_t td_state;
-int cur_dance (qk_tap_dance_state_t *state);
-void tmuxlp_finished (qk_tap_dance_state_t *state, void *user_data);
-void tmuxlp_reset (qk_tap_dance_state_t *state, void *user_data);
 
 void tmux_command(uint16_t keycode) {
     register_code(KC_LCTRL);
@@ -111,8 +98,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case TMUX_S:
                 tmux_command(KC_S);
                 break;
-            case TMUX_SCLN:
+            case TMUX_O:
                 tmux_command(KC_O);
+                break;
+            case TMUX_ESC:
+                tmux_command(KC_ESC);
                 break;
         }
     }
@@ -131,8 +121,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         MT(MOD_LSFT, KC_GRV), KC_Z, KC_X, KC_C, KC_V, KC_B, KC_NO,
         KC_NO, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, MT(MOD_RSFT, KC_BSLS),
 
-        TT(3), KC_NO, KC_NO, KC_BSPC, LT(1, KC_SPC), LGUI_T(KC_ESC), TT(2),
-        TD(TMUX_ESC), RCTL_T(KC_ESC), LT(1, KC_ENT), KC_TAB, ALT_TAB, KC_NO, TT(3)
+        MO(3), KC_NO, KC_NO, KC_BSPC, LT(1, KC_SPC), LGUI_T(KC_ESC), MO(2),
+        MO(4), RCTL_T(KC_ESC), LT(1, KC_ENT), KC_TAB, ALT_TAB, KC_NO, MO(3)
     ),
     [1] = LAYOUT(
         KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_NO,
@@ -178,53 +168,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO, TMUX_6, TMUX_7, TMUX_8, TMUX_9, KC_NO, KC_NO,
 
         KC_NO, KC_NO, TMUX_S, KC_NO, KC_NO, KC_NO, KC_NO,
-        KC_NO, TMUX_H, TMUX_J, TMUX_K, TMUX_L, TMUX_SCLN, KC_NO,
+        KC_NO, TMUX_H, TMUX_J, TMUX_K, TMUX_L, TMUX_O, KC_NO,
 
         KC_NO, KC_NO, TMUX_X, TMUX_C, TMUX_V, KC_NO, KC_NO,
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
 
-        KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS,
+        KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, TMUX_ESC, KC_TRNS,
         KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS
     ),
-};
-
-
-
-
-int cur_dance (qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (state->interrupted || !state->pressed) {
-            return SINGLE_TAP;
-        }
-        else {
-            return SINGLE_HOLD;
-        }
-    }
-    return 3;
-}
-
-void tmuxlp_finished (qk_tap_dance_state_t *state, void *user_data) {
-    td_state = cur_dance(state);
-    switch (td_state) {
-        case SINGLE_TAP:
-            tmux_command(KC_ESC);
-            break;
-        case SINGLE_HOLD:
-            layer_on(4);
-            break;
-    }
-}
-
-void tmuxlp_reset (qk_tap_dance_state_t *state, void *user_data) {
-    switch (td_state) {
-        case SINGLE_TAP:
-            break;
-        case SINGLE_HOLD:
-            layer_off(4);
-            break;
-    }
-}
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [TMUX_ESC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, tmuxlp_finished, tmuxlp_reset)
 };
