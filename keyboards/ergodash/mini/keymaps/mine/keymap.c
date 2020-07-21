@@ -135,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F13, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, MT(MOD_RSFT, KC_BSLS),
 
         MO(3), KC_NO, KC_NO, LT(2, KC_BSPC), LT(1, KC_SPC), LGUI_T(KC_ESC), MO(2),
-        MO(4), RCTL_T(KC_ESC), LT(1, KC_ENT), LT(4, KC_TAB), GUI_TAB, KC_NO, MO(3)
+        MO(4), RCTL_T(KC_ESC), LT(1, KC_ENT), LT(4, KC_TAB), KC_NO, GUI_TAB, MO(3)
     ),
     [1] = LAYOUT(
         KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_NO,
@@ -147,8 +147,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LSFT, KC_NO, KC_UNDS, KC_MINS, KC_EQL, KC_PLUS, KC_NO,
         KC_NO, KC_LBRC, KC_LCBR, KC_RCBR, KC_RBRC, KC_NO, MT(MOD_RSFT, KC_BSLS),
 
-        KC_NO, SCREENSHOT, KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO
+        KC_NO, SCREENSHOT, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO
     ),
     [2] = LAYOUT(
         KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_NO,

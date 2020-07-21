@@ -43,3 +43,6 @@ SRC =	keyboards/wilba_tech/wt_main.c \
 		quantum/color.c \
 		drivers/issi/is31fl3218.c \
 		drivers/avr/i2c_master.c
+
+
+RGB_MATRIX_CUSTOM_USER = yes
